@@ -1,23 +1,25 @@
 import React  from 'react';
 
-import {Paper , Typography } from '@material-ui/core';
 import Aux from '../../Hoc/auxlliary';
+import {Loader} from '../index'
+
+import classes from './VideoDetail.module.css';
 
 const VideoDetail = ({video})=>{
-    if(!video) return <div>Loading...</div>
+    if(!video) return <Loader />
 
     const videoSrc = `https://youtube.com/embed/${video.id.videoId}`
     console.log(video);
     return (
-        <Aux>    
-            <Paper elevation={6} style={{height : '400px', width: '100%'}}>
+        <Aux >  
+            <div className={classes.iframeContainer}>
                 <iframe frameBorder="0" height="100%" width="100%" title="Video Player" src= {videoSrc} />
-            </Paper>
-            <Paper elevation={6} style={{padding : '15px'}}>
-                <Typography variant="h4">{video.snippet.title} - {video.snippet.channelTitle}</Typography>
-                <Typography variant="subtitle1">{video.snippet.channelTitle}</Typography>
-                <Typography variant="subtitle2">{video.snippet.description}</Typography>
-            </Paper>
+            </div>  
+            <div className={classes.videoDetails}>
+                <h3 className={classes.videoTitle}>{video.snippet.title} - {video.snippet.channelTitle}</h3>
+                <h4 className={classes.channelName} >{video.snippet.channelTitle}</h4>
+                <p className={classes.channelDesc}>{video.snippet.description}</p>
+            </div>
         </Aux>
     )
 }

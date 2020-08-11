@@ -1,8 +1,10 @@
 import React , {Component} from 'react';
 import {Grid} from '@material-ui/core';
 
-import {SearchBar , VideoDetail , VideoList} from './components/index';
+import {MenuBar , VideoDetail , VideoList} from './components/index';
 import youtube from './api/youtube';
+
+import './app.modules.css';
 
 class App extends Component{
     state = {
@@ -10,14 +12,14 @@ class App extends Component{
         selectedVideo : null
     }
     componentDidMount(){
-        this.handleSubmit('naam');
+        this.handleSubmit('latest');
     }
     handleSubmit = async (searchTerm)=>{
         const response = await youtube.get('search' , {
             params : {
                 part : 'snippet',
-                maxResults : 5,
-                key : 'AIzaSyAIPfwTiBYVo-PfmqjdbOGXOZN-BGdQAOU',
+                maxResults : 10,
+                key : 'AIzaSyBIBEM4gHr9UnzurdaWljJhxzNWv2cSljA',
                 q : searchTerm
             }
         });
@@ -29,21 +31,27 @@ class App extends Component{
     }
     render(){
         return(
-            <Grid justify="center" style={{maxWidth : "100vw"}} container spacing={10}>
-                <Grid item xs={12}>
-                    <Grid container justify="center" spacing={8}>
-                        <Grid item xs={12}>
-                            <SearchBar onFormSubmit = {this.handleSubmit} />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <VideoDetail video={this.state.selectedVideo} />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <VideoList videos={this.state.videos} onVideoSelect={this.onVideoSelect} />
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Grid>
+            <div className="mainContainer">
+                <div className="MenuBar">
+                    <MenuBar onFormSubmit = {this.handleSubmit} />
+                </div>
+                <div className="VideoContainer">
+                    <div className="SingleVideoPlay">
+                        <VideoDetail video={this.state.selectedVideo} />
+                    </div>
+                    <div className="videoList">
+                        <VideoList videos={this.state.videos} onVideoSelect={this.onVideoSelect} />
+                        <br></br><br></br><br></br><br></br>
+                    </div>
+                </div>
+            </div>
+            // <Grid justify="center" style={{maxWidth : "100vw" , backgroundColor : 'Black'}} container spacing={10}>
+            //     <Grid item xs={12}>
+            //         <Grid container justify="center" spacing={8}>
+                        
+            //         </Grid>
+            //     </Grid>
+            // </Grid>
         );
     };
 };
