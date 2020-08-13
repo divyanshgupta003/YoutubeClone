@@ -1,19 +1,22 @@
 import React , {Component} from 'react';
-import {Grid} from '@material-ui/core';
 
 import {MenuBar , VideoDetail , VideoList} from './components/index';
 import youtube from './api/youtube';
+// import DictaPhone from './components/Dictaphone/Dictaophone';
 
-import './app.modules.css';
+import classes from './app.module.css';
+import Comments from './components/Comments/Comments';
 
-class App extends Component{
+class VideoPlay extends Component{
     state = {
         videos : [],
-        selectedVideo : null
+        selectedVideo : null,
+        searchResult : false,
+        comments : []
     }
-    componentDidMount(){
-        this.handleSubmit('latest');
-    }
+    // componentDidMount(){
+    //     this.handleSubmit('latest');
+    // }
     handleSubmit = async (searchTerm)=>{
         const response = await youtube.get('search' , {
             params : {
@@ -24,36 +27,57 @@ class App extends Component{
             }
         });
         // console.log(response);
-        this.setState({videos : response.data.items , selectedVideo : response.data.items[0]});
+        this.setState({videos : response.data.items , searchResult : true});
     }
-    onVideoSelect = (video)=>{
+    onVideoSelect = async (video)=>{
         this.setState({selectedVideo : video});
+        const comments = await youtube.get('commentThreads' , {
+            params : {
+                part : 'snippet,replies',
+                maxResults : 10,
+                order : 'relevance',
+                videoId : video.id.videoId,
+                key : 'AIzaSyBIBEM4gHr9UnzurdaWljJhxzNWv2cSljA'
+            }
+        })
+        this.setState({comments : comments.data.items});
     }
     render(){
+        let content = (
+            <h2>Start Your Search Now!!</h2>
+        );
+        let selectedResult = (
+            <h2>Just Select A Video To PLay!!</h2>
+        );
+        if(this.state.selectedVideo != null){
+            console.log('we are here');
+            selectedResult = (
+                <div className={classes.SingleVideoPlay}>
+                    <VideoDetail video={this.state.selectedVideo} comments={this.state.comments}/>
+                </div>
+            );
+        }
+        if(this.state.searchResult){
+            content = (
+                <div className={classes.VideoContainer}>
+                    {selectedResult}
+                    <div className={classes.videoList}>
+                        <VideoList videos={this.state.videos} onVideoSelect={this.onVideoSelect} />
+                    </div>
+                </div>     
+            )
+        }
         return(
-            <div className="mainContainer">
-                <div className="MenuBar">
+            <div className={classes.mainContainer}>
+                <div className={classes.MenuBar}>
                     <MenuBar onFormSubmit = {this.handleSubmit} />
                 </div>
-                <div className="VideoContainer">
-                    <div className="SingleVideoPlay">
-                        <VideoDetail video={this.state.selectedVideo} />
-                    </div>
-                    <div className="videoList">
-                        <VideoList videos={this.state.videos} onVideoSelect={this.onVideoSelect} />
-                        <br></br><br></br><br></br><br></br>
-                    </div>
-                </div>
+                {content}
+                {/* <DictaPhone handleSubmit={this.handleSubmit} /> */}
+                {/* <Comments /> */}
             </div>
-            // <Grid justify="center" style={{maxWidth : "100vw" , backgroundColor : 'Black'}} container spacing={10}>
-            //     <Grid item xs={12}>
-            //         <Grid container justify="center" spacing={8}>
-                        
-            //         </Grid>
-            //     </Grid>
-            // </Grid>
         );
     };
 };
 
-export default App;
+export default VideoPlay;

@@ -8,6 +8,7 @@ h5,h6{
     height: 102px;
     margin-bottom: 20px;
     color: white;
+    cursor: pointer;
 }
 .VideoItemContainer img{
     height: 100%;

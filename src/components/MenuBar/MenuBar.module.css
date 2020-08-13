@@ -17,11 +17,6 @@
     padding: 0;
     margin: 0;
 }
-.Logo i{
-    font-size: 30px;
-    color: #FF0000;
-    margin-right: 5px;
-}
 .SearchContainer{
     max-width: 60%;
     flex: 60%;
@@ -48,8 +43,4 @@
     padding: 7px 15px;
     background-color: #FFFFFF14;
     border: none;
-}
-.SearchContainer button i{
-    color: #aaaaaa;
-    font-size: 17px;
 }
