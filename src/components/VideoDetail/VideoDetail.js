@@ -10,7 +10,6 @@ const VideoDetail = ({video , comments})=>{
     if(!video) return <Loader />
 
     const videoSrc = `https://youtube.com/embed/${video.id.videoId}`
-    console.log(video);
     return (
         <Aux >  
             <div className={classes.iframeContainer}>

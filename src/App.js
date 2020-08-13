@@ -2,10 +2,8 @@ import React , {Component} from 'react';
 
 import {MenuBar , VideoDetail , VideoList} from './components/index';
 import youtube from './api/youtube';
-// import DictaPhone from './components/Dictaphone/Dictaophone';
 
 import classes from './app.module.css';
-import Comments from './components/Comments/Comments';
 
 class VideoPlay extends Component{
     state = {
@@ -26,7 +24,6 @@ class VideoPlay extends Component{
                 q : searchTerm
             }
         });
-        // console.log(response);
         this.setState({videos : response.data.items , searchResult : true});
     }
     onVideoSelect = async (video)=>{
@@ -50,7 +47,7 @@ class VideoPlay extends Component{
             <h2>Just Select A Video To PLay!!</h2>
         );
         if(this.state.selectedVideo != null){
-            console.log('we are here');
+            
             selectedResult = (
                 <div className={classes.SingleVideoPlay}>
                     <VideoDetail video={this.state.selectedVideo} comments={this.state.comments}/>

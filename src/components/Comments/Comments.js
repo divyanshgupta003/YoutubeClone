@@ -3,10 +3,10 @@ import classes from './Comments.module.css';
 import SingleComment from '../SingleComment/SingleComment';
 
 const Comments = (props)=>{
-    console.log(props.comments);
     const result = props.comments.map(comment =>{
         return(
             <SingleComment
+                key = {comment.id}
                 author = {comment.snippet.topLevelComment.snippet.authorDisplayName}
                 comment = {comment.snippet.topLevelComment.snippet.textDisplay}
                 likes = {comment.snippet.topLevelComment.snippet.likeCount}

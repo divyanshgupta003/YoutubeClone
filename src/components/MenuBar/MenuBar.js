@@ -32,7 +32,7 @@ class SearchBar extends Component{
             dictaPhone = (
                 <div>
                     <DictaPhone speechHandle={this.speechHandle} speakResultSubmit={this.speakResultHandle}  />
-                    <audio id="audio" src="http://www.soundjay.com/button/beep-07.wav" autoplay="true" ></audio>
+                    <audio id="audio" src="http://www.soundjay.com/button/beep-07.wav" autoPlay={true} ></audio>
                 </div>
             )
         }
@@ -44,7 +44,7 @@ class SearchBar extends Component{
                 </div>
                 <div className={classes.SearchContainer}>
                     <form onSubmit={this.handleSubmit}>
-                        <input placeholder="Search..." onChange={this.handleChange}/>
+                        <input placeholder="Search..." onChange={this.handleChange} value={this.state.searchTerm}/>
                     </form>
                     <button onClick={this.speechHandle}><MicIcon style={{color: '#aaaaaa' }} className={classes.Mic}></MicIcon></button>
                     {dictaPhone}
